@@ -6,27 +6,36 @@
 # Northpeak Descent: Cross-Platform Intrusion Investigation
 
 ## Overview
-This repository documents a self-directed threat hunting investigation conducted within the LOG(N) Pacific Cyber Range. As this is my first time executing this specific scenario, I am treating this as a deliberate "reps-focused" practice project to build proficiency in Microsoft Sentinel and KQL.
+
+This repository documents a self-directed threat hunting investigation conducted within the LOG(N) Pacific Cyber Range. As this is my first time executing this specific scenario, I am treating this as a deliberate reps focused practice project to build proficiency in Microsoft Sentinel and KQL.
+
 
 ## Practice and Community Learning
-I believe real expertise is built in the noise—navigating real telemetry and dead ends to understand the "why" behind the data.
 
-* **Methodology:** Focusing on iterative query refinement, pivot analysis, and reducing signal noise.
-* **Community Engagement:** I am attending a community technical debrief on July 15, 2026, to validate my findings and pressure-test my logic.
-* **Continuous Improvement:** Post-session, I will update this repository with refined pivot logic and lessons learned from peer workflows.
+I believe real expertise is built in the noise by navigating real telemetry and dead ends to understand the why behind the data.
+
+**Methodology:** I am focusing on iterative query refinement, pivot analysis, and reducing signal noise within complex datasets.
+
+**Community Engagement:** I am attending a community technical debrief on July 15, 2026, to validate my findings, pressure test my logic, and compare my hunting patterns against peer workflows.
+
+**Continuous Improvement:** Following the debrief, I will update this repository with refined pivot logic and key lessons learned.
+
 
 ## Technical Stack
-* **Platform:** Microsoft Sentinel
-* **Query Language:** Kusto Query Language (KQL)
-* **Endpoint Analysis:** Microsoft Defender for Endpoint (MDE)
+
+**Platform:** Microsoft Sentinel
+
+**Query Language:** Kusto Query Language (KQL)
+
+**Endpoint Analysis:** Microsoft Defender for Endpoint (MDE)
 
 ## Objective
-My goal is to move beyond "ticking the box" to achieve a deep understanding of cross-platform intrusion patterns. By documenting my process—including the queries that returned noise and the pivots that led to breakthroughs—I am building the analytical muscle memory required for a professional Cyber Defense Analyst role.
+
+My goal is to move beyond ticking the box to achieve a deep understanding of cross-platform intrusion patterns. By documenting my process including the queries that returned noise and the pivots that led to breakthroughs, I am building the analytical muscle memory required for a professional Cyber Defense Analyst role.
 
 [![Platform](https://img.shields.io/badge/SIEM-Microsoft%20Sentinel-0078D4?style=flat-square&logo=microsoft&logoColor=white)](https://azure.microsoft.com/en-us/products/microsoft-sentinel)
 [![Telemetry](https://img.shields.io/badge/Telemetry-Defender%20XDR-0078D4?style=flat-square&logo=microsoft&logoColor=white)](https://www.microsoft.com/en-us/security/business/siem-and-xdr/microsoft-defender-xdr)
 [![Language](https://img.shields.io/badge/Query%20Language-KQL-00B4D8?style=flat-square)](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/)
-[![Workspace](https://img.shields.io/badge/Workspace-LAW--Cyber%20Range-grey?style=flat-square)](https://hunt.lognpacific.com)
 [![Mode](https://img.shields.io/badge/Mode-Practice-orange?style=flat-square)]()
 [![Debrief](https://img.shields.io/badge/Community%20Debrief-July%2015%202026-red?style=flat-square)]()
 
