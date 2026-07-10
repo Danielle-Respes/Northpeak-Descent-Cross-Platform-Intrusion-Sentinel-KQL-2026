@@ -1,8 +1,6 @@
-[Northpeak-Descent-README.md](https://github.com/user-attachments/files/29909143/Northpeak-Descent-README.md)
+
 
 <div align="center">
-
-<img src="northpeak-banner.png" alt="Northpeak Descent — Cross-Platform Intrusion" width="100%"/>
 
 # Northpeak Descent
 ### Cross-Platform Intrusion Investigation
