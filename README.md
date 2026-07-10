@@ -1,18 +1,17 @@
 
 <img width="977" height="298" alt="Screenshot 2026-07-10 at 6 44 46 PM" src="https://github.com/user-attachments/assets/25afcbe8-3711-43da-b847-e579ed2eeee4" />
 
-<div align="center">
-
 # Northpeak Descent: Cross-Platform Intrusion Investigation
 
 ## Overview
 
 This repository documents a self-directed threat hunting investigation conducted within the LOG(N) Pacific Cyber Range. As this is my first time executing this specific scenario, I am treating this as a deliberate reps focused practice project to build proficiency in Microsoft Sentinel and KQL.
 
+---
 
 ## Practice and Community Learning
 
-I believe real expertise is built in the noise by navigating real telemetry and dead ends to understand the why behind the data.
+> I believe real expertise is built in the noise by navigating real telemetry and dead ends to understand the why behind the data.
 
 **Methodology:** I am focusing on iterative query refinement, pivot analysis, and reducing signal noise within complex datasets.
 
@@ -20,8 +19,30 @@ I believe real expertise is built in the noise by navigating real telemetry and 
 
 **Continuous Improvement:** Following the debrief, I will update this repository with refined pivot logic and key lessons learned.
 
+---
+
+## Investigation Journal
+
+> **July 11:** Initial environment setup and telemetry baselining. Encountered significant noise in MDE DeviceEvents while attempting to isolate anomalous process execution.
+>
+> **July 12:** Focused on query refinement. Successfully identified a pivot point after filtering out standard service account activity and administrative noise.
+>
+> **July 13:** Deep dive into cross-platform anomalies. Working on reducing false positives in the investigation logic to isolate the core intrusion pattern.
+
+---
+
+## Post Debrief Reflections
+
+> *This section will be updated after the community technical debrief on July 15, 2026, to include peer feedback and refined hunting logic.*
+
+---
 
 ## Technical Stack
+[![Platform](https://img.shields.io/badge/SIEM-Microsoft%20Sentinel-0078D4?style=flat-square&logo=microsoft&logoColor=white)](https://azure.microsoft.com/en-us/products/microsoft-sentinel)
+[![Telemetry](https://img.shields.io/badge/Telemetry-Defender%20XDR-0078D4?style=flat-square&logo=microsoft&logoColor=white)](https://www.microsoft.com/en-us/security/business/siem-and-xdr/microsoft-defender-xdr)
+[![Language](https://img.shields.io/badge/Query%20Language-KQL-00B4D8?style=flat-square)](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/)
+[![Mode](https://img.shields.io/badge/Mode-Practice-orange?style=flat-square)]()
+[![Debrief](https://img.shields.io/badge/Community%20Debrief-July%2015%202026-red?style=flat-square)]()
 
 **Platform:** Microsoft Sentinel
 
@@ -33,11 +54,6 @@ I believe real expertise is built in the noise by navigating real telemetry and 
 
 My goal is to move beyond ticking the box to achieve a deep understanding of cross-platform intrusion patterns. By documenting my process including the queries that returned noise and the pivots that led to breakthroughs, I am building the analytical muscle memory required for a professional Cyber Defense Analyst role.
 
-[![Platform](https://img.shields.io/badge/SIEM-Microsoft%20Sentinel-0078D4?style=flat-square&logo=microsoft&logoColor=white)](https://azure.microsoft.com/en-us/products/microsoft-sentinel)
-[![Telemetry](https://img.shields.io/badge/Telemetry-Defender%20XDR-0078D4?style=flat-square&logo=microsoft&logoColor=white)](https://www.microsoft.com/en-us/security/business/siem-and-xdr/microsoft-defender-xdr)
-[![Language](https://img.shields.io/badge/Query%20Language-KQL-00B4D8?style=flat-square)](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/)
-[![Mode](https://img.shields.io/badge/Mode-Practice-orange?style=flat-square)]()
-[![Debrief](https://img.shields.io/badge/Community%20Debrief-July%2015%202026-red?style=flat-square)]()
 
 </div>
 
