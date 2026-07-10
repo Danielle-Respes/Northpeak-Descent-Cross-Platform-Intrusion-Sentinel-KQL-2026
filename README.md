@@ -3,8 +3,25 @@
 
 <div align="center">
 
-# Northpeak Descent
-### Cross-Platform Intrusion Investigation
+# Northpeak Descent: Cross-Platform Intrusion Investigation
+
+## Overview
+This repository documents a self-directed threat hunting investigation conducted within the LOG(N) Pacific Cyber Range. As this is my first time executing this specific scenario, I am treating this as a deliberate "reps-focused" practice project to build proficiency in Microsoft Sentinel and KQL.
+
+## Practice and Community Learning
+I believe real expertise is built in the noise—navigating real telemetry and dead ends to understand the "why" behind the data.
+
+* **Methodology:** Focusing on iterative query refinement, pivot analysis, and reducing signal noise.
+* **Community Engagement:** I am attending a community technical debrief on July 15, 2026, to validate my findings and pressure-test my logic.
+* **Continuous Improvement:** Post-session, I will update this repository with refined pivot logic and lessons learned from peer workflows.
+
+## Technical Stack
+* **Platform:** Microsoft Sentinel
+* **Query Language:** Kusto Query Language (KQL)
+* **Endpoint Analysis:** Microsoft Defender for Endpoint (MDE)
+
+## Objective
+My goal is to move beyond "ticking the box" to achieve a deep understanding of cross-platform intrusion patterns. By documenting my process—including the queries that returned noise and the pivots that led to breakthroughs—I am building the analytical muscle memory required for a professional Cyber Defense Analyst role.
 
 [![Platform](https://img.shields.io/badge/SIEM-Microsoft%20Sentinel-0078D4?style=flat-square&logo=microsoft&logoColor=white)](https://azure.microsoft.com/en-us/products/microsoft-sentinel)
 [![Telemetry](https://img.shields.io/badge/Telemetry-Defender%20XDR-0078D4?style=flat-square&logo=microsoft&logoColor=white)](https://www.microsoft.com/en-us/security/business/siem-and-xdr/microsoft-defender-xdr)
