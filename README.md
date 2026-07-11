@@ -36,6 +36,7 @@ This repository documents a self-directed threat hunting investigation conducted
 > *This section will be updated after the community technical debrief on July 15, 2026, to include peer feedback and refined hunting logic.*
 
 ---
+
 ## Career Signal — What This Demonstrates
 
 *   **For SOC Roles:** Demonstrates end-to-end incident response, including multi-SIEM telemetry correlation (Sentinel/MDE), KQL-based pivot analysis, and proactive detection engineering developed from confirmed investigation findings.
@@ -45,6 +46,7 @@ This repository documents a self-directed threat hunting investigation conducted
 *   **For Remote Roles:** Proves effective asynchronous communication skills. This report is structured as a standalone artifact—providing clear, actionable data that requires minimal clarification, mirroring the standard for high-performance remote teams.
 
 --- 
+
 
 ## Technical Stack
 [![Platform](https://img.shields.io/badge/SIEM-Microsoft%20Sentinel-0078D4?style=flat-square&logo=microsoft&logoColor=white)](https://azure.microsoft.com/en-us/products/microsoft-sentinel)
