@@ -189,6 +189,8 @@ remote teams.
 This is my first CTF-style threat hunt — working in practice mode to learn how to hunt properly, not to optimise for done.
 Every query, every dead end, every wrong turn is documented.
 
+LOG(N) Pacific Cyber Range // NORTHPEAK DESCENT // built by @Dogukan Oruc
+
 [Portfolio](https://github.com/Danielle-Respes) &nbsp;|&nbsp; [LinkedIn](https://www.linkedin.com/in/danielle-respes-64113767/)
 
 </div>
