@@ -50,9 +50,15 @@ This repository documents a self-directed threat hunting investigation conducted
 
 **Endpoint Analysis:** Microsoft Defender for Endpoint (MDE)
 
-## Objective
+## Role-Specific Takeaways
 
-My goal is to move beyond ticking the box to achieve a deep understanding of cross-platform intrusion patterns. By documenting my process including the queries that returned noise and the pivots that led to breakthroughs, I am building the analytical muscle memory required for a professional Cyber Defense Analyst role.
+> I approach every investigation by considering the unique priorities of the security team.
+
+*   **SOC Analyst Lens:** My methodology focuses on reducing "mean time to detect" (MTTD). In this investigation, I demonstrate how KQL pivoting moved me from initial alert to confirmed attacker command line. Each report includes a proposed detection rule to automate future defenses.
+
+*   **GRC Analyst Lens:** I view incidents through the lens of risk and compliance. I identify the specific security controls (NIST CSF) impacted and translate technical findings into business-impact summaries suitable for leadership.
+
+*   **Remote Work Evidence:** This report is written for clarity and asynchronous consumption. By documenting my thought process and providing high-fidelity logs, I ensure that my work is fully transparent and actionable for any team member, regardless of their location.
 
 
 </div>
