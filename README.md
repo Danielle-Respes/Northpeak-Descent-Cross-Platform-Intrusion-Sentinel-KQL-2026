@@ -23,11 +23,11 @@ This repository documents a self-directed threat hunting investigation conducted
 
 ## Investigation Journal
 
-> **July 11:** Initial environment setup and telemetry baselining. Encountered significant noise in MDE DeviceEvents while attempting to isolate anomalous process execution.
+> **July 11:** TBD plan:  Initial environment setup and telemetry baselining. Encountered significant noise in MDE DeviceEvents while attempting to isolate anomalous process execution.
 >
-> **July 12:** Focused on query refinement. Successfully identified a pivot point after filtering out standard service account activity and administrative noise.
+> **July 12:** TBD plan:  Focused on query refinement. Successfully identified a pivot point after filtering out standard service account activity and administrative noise.
 >
-> **July 13:** Deep dive into cross-platform anomalies. Working on reducing false positives in the investigation logic to isolate the core intrusion pattern.
+> **July 13:** TBD plan:  Deep dive into cross-platform anomalies. Working on reducing false positives in the investigation logic to isolate the core intrusion pattern.
 
 ---
 
@@ -183,17 +183,6 @@ The alert queue is loud with failed logons. It looks like brute force. It is not
 **What I would do faster next time:**
 
 ---
-## Career Signal — What This Demonstrates
-
-**For SOC Roles:** Demonstrates end-to-end incident response, including multi-SIEM telemetry correlation (Sentinel/MDE), KQL-based pivot analysis, and proactive detection engineering 
-developed from confirmed investigation findings.
-
-**For GRC Roles:** Demonstrates adherence to the NIST Cybersecurity Framework (Detect, Respond, Recover), formal incident documentation, and the ability to translate technical 
-findings into business-impact reports for leadership.
-
-**For Remote Roles:** Proves effective asynchronous communication skills. This report is structured as a standalone artifact — providing clear, actionable data that requires minimal 
-clarification, mirroring the standard for high-performance 
-remote teams.
 
 <div align="center">
 
