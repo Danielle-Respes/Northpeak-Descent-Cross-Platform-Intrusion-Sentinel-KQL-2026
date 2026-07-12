@@ -1,6 +1,6 @@
 # KQL Learning Log
 
-My running log as I learn KQL on this hunt: the operators that clicked, the ones that bit me, and the patterns starting to stick. AI is my syntax tutor; the analysis is mine.
+I'm new to KQL, so I'm keeping a log of what I figure out and the questions I still have. It helps me remember what I've learned so I can use it on the next hunt. AI helps me with the syntax. The analysis is mine.
 
 ## Syntax learned
 
