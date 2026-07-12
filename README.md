@@ -23,11 +23,11 @@ This repository documents a self-directed threat hunting investigation conducted
 
 ## Investigation Journal
 
-> **July 11:** TBD plan:  Initial environment setup and telemetry baselining. Encountered significant noise in MDE DeviceEvents while attempting to isolate anomalous process execution.
+> **July 12:** TBD plan:  Initial environment setup and telemetry baselining. Encountered significant noise in MDE DeviceEvents while attempting to isolate anomalous process execution.
 >
-> **July 12:** TBD plan:  Focused on query refinement. Successfully identified a pivot point after filtering out standard service account activity and administrative noise.
+> **July 13:** TBD plan:  Focused on query refinement. Successfully identified a pivot point after filtering out standard service account activity and administrative noise.
 >
-> **July 13:** TBD plan:  Deep dive into cross-platform anomalies. Working on reducing false positives in the investigation logic to isolate the core intrusion pattern.
+> **July 14:** TBD plan:  Deep dive into cross-platform anomalies. Working on reducing false positives in the investigation logic to isolate the core intrusion pattern.
 
 ---
 
