@@ -3,11 +3,11 @@
 
 ## Executive Summary
 
-*Status: Active hunting.* Someone gained unauthorized access to the Northpeak Logistics estate on the evening of June 16, 2026, across a mixed Windows and Linux environment. I'm working the incident from the evidence to reconstruct what actually happened, in order.
+*Status: Active hunting.* Someone gained unauthorized access to the Northpeak Logistics estate on the evening of June 16, 2026, across a mixed Windows and Linux environment. his report captures my investigative steps, the hurdles I hit, and the process I'm using to learn KQL and threat hunting.
 
 ## Methodology
 
-This is a practice hunt and my first extended KQL investigation, so I'm learning the query language as I work. I use an AI assistant as a syntax tutor while doing the analysis myself: reading each result, choosing the pivots, and drawing the conclusions. My running syntax notes and dead ends live in [kql-learning-log.md](./kql-learning-log.md).
+I use an AI assistant as a tutor to help me understand KQL syntax. It helps me learn the how and why behind the commands, which I then validate and interpret myself. My syntax notes and dead ends are in [kql-learning-log.md](./kql-learning-log.md).
 
 ## Q00: Baseline and Setup
 
