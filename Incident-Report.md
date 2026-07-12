@@ -26,7 +26,7 @@ DeviceProcessEvents
 
 **What I noticed:** the two Windows hosts sit near 1,050 events each, but npt-linux01 carries about 7x that, roughly 78% of all process telemetry.
 
-**Note:** high volume alone doesn't confirm compromise. The Linux count could be normal activity or the attacker's work. I'm treating it as a lead for Phase 02, not a conclusion.
+**Note:** high volume alone doesn't confirm compromise. The Linux count could be normal activity or the attacker's work. I'm treating it as a lead for Q02, not a conclusion.
 
 
 ## Q01: Initial Access
@@ -50,6 +50,6 @@ DeviceLogonEvents
 - **Account:** `sancadmin`, a real admin account. Nothing was hacked; they just logged in with valid credentials.
 - **How:** LogonType is `RemoteInteractive` on the Windows hosts, which means RDP.
 
-**How I got there:** I started with the same base as Phase 00 (table, time, host), then added `LogonSuccess` to drop the failed logins, checked `RemoteIPType` to confirm the source was outside, and used `LogonType` to find the method (RDP). I used one of the two hints (15 points) for the "it's a decoy, look at what succeeded" nudge, and I want to get to that on my own next time.
+**How I got there:** I started with the same base as  Q00 (table, time, host), then added `LogonSuccess` to drop the failed logins, checked `RemoteIPType` to confirm the source was outside, and used `LogonType` to find the method (RDP). I used one of the two hints (15 points) for the "it's a decoy, look at what succeeded" nudge, and I want to get to that on my own next time.
 
 **Q01 answer:** `148.64.103.173, RDP`
