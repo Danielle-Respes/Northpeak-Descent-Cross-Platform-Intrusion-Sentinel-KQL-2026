@@ -23,6 +23,8 @@ This repository documents a self-directed threat hunting investigation conducted
 
 **Community Engagement:** I am attending a community technical debrief on July 15, 2026, to validate my findings, pressure test my logic, and compare my hunting patterns against peer workflows.
 
+**→ [Prep for the July 15 Community Debrief](https://github.com/Danielle-Respes/Northpeak-Descent-Cross-Platform-Intrusion-Sentinel-KQL-2026/blob/main/debrief-prep-july-15.md)** — where I got stuck, how I worked Q01, and the questions I'm bringing to the group.
+
 **Continuous Improvement:** Following the debrief, I will update this repository with refined pivot logic and key lessons learned.
 
 ---
