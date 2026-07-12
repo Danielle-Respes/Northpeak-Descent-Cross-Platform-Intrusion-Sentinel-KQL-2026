@@ -3,7 +3,7 @@
 
 ## Executive Summary
 
-*Status: Active hunting.* Someone gained unauthorized access to the Northpeak Logistics estate on the evening of June 16, 2026, across a mixed Windows and Linux environment. his report captures my investigative steps, the hurdles I hit, and the process I'm using to learn KQL and threat hunting.
+*Status: Active hunting.* Someone gained unauthorized access to the Northpeak Logistics estate on the evening of June 16, 2026, across a mixed Windows and Linux environment. This report captures my investigative steps, the hurdles I hit, and the process I'm using to learn KQL and threat hunting.
 
 ## Methodology
 
