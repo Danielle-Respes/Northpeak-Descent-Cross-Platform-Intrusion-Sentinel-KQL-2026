@@ -6,7 +6,7 @@ The group meets Wednesday July 15 to walk through this hunt together. Here's the
 
 **Where I got stuck:**
 - Empty results at first. My time range was "Last 24 hours" but the intrusion was weeks back. Fixed it by setting the window inside the query.
-- `LogonType == 10` returned nothing. DeviceLogonEvents stores LogonType as text, not a number, so I needed `"RemoteInteractive"`.
+
 
 **How I worked Q01:**
 - Ignored the failed logins (the decoy), filtered to successful logins from outside, and found one external IP on a valid admin account over RDP.
