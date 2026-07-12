@@ -53,3 +53,37 @@ DeviceLogonEvents
 **How I got there:** I started with the same base as  Q00 (table, time, host), then added `LogonSuccess` to drop the failed logins, checked `RemoteIPType` to confirm the source was outside, and used `LogonType` to find the method (RDP). I used one of the two hints (15 points) for the "it's a decoy, look at what succeeded" and I want to get to that on my own next time.
 
 **Q01 answer:** `148.64.103.173, RDP`
+
+## Q02: Which Foothold Came First
+
+The obvious story, and the pie chart, both point to Linux. npt-linux01 has about 78% of all the process events, so it looks like the center of everything. The brief warned me not to trust that and to prove the order myself. Volume isn't order, so I put all three hosts on one timeline and let the timestamps decide.
+
+<img width="612" height="355" alt="Screenshot 2026-07-12 at 2 25 35 PM" src="https://github.com/user-attachments/assets/2a2a525d-7257-49c9-9daf-3222f0f1cb61" />
+
+
+
+**Question:** which host was accessed from outside first?
+
+```kql
+DeviceLogonEvents
+| where TimeGenerated between (datetime(2026-06-16 18:00) .. datetime(2026-06-17 02:00))
+| where DeviceName has_any ("npt-ws01","npt-srv01","npt-linux01")
+| where ActionType == "LogonSuccess"
+| where RemoteIPType == "Public"
+| project TimeGenerated, DeviceName, AccountName, RemoteIP, LogonType
+| sort by TimeGenerated asc
+```
+
+**What I changed from Q01:** I dropped the `LogonType == "RemoteInteractive"` filter. RDP logs as RemoteInteractive, which is a Windows thing, so keeping it would have hidden the Linux host completely and I'd have "proven" Windows first by accident. To compare the two platforms fairly, I filtered on external access (`RemoteIPType == Public`) instead of a Windows-only logon type, then sorted by time so the earliest access is the top row.
+
+**What I found:** earliest external login from `148.64.103.173` (account `sancadmin`) on each host:
+
+- **npt-ws01 (Windows): 20:57:54**
+- npt-srv01 (Windows): 21:58:03
+- **npt-linux01 (Linux): 22:01:38**
+
+The first foothold was npt-ws01 at 20:57:54, over an hour before Linux was touched at 22:01:38. So Windows came first, not Linux. Same attacker on both (same account, same IP), just different platforms and different arrival times.
+
+**Note on logon types:** npt-ws01 shows Network logins at 20:57:54 immediately followed by RemoteInteractive at 20:58:02, same IP. That's one RDP connection establishing: the network auth lands first, then the interactive session opens. The Linux logins are Network type, not RemoteInteractive. Both count as successful remote access from outside; the type just describes how each session authenticated.
+
+**What this proves:** volume is not order. Linux looked central because it's noisy, but the timestamps show the operator started on the Windows workstation and reached Linux later. This is the "don't assume Linux first" trap the brief set, and the two timestamps side by side disprove it.
