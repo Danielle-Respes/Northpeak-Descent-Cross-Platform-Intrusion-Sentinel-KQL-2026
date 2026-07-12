@@ -13,14 +13,19 @@ I'm new to KQL, so I'm keeping a log of what I figure out and the questions I st
 - **`summarize ... by`**: groups rows and aggregates, like a pivot table. Example: `summarize Events = count() by DeviceName`
 - **`count()`**: counts rows, usually paired with summarize
 - **`project`**: picks which columns to show, and their order. Example: `project AccountName, RemoteIP, LogonType`
+- **`distinct`**: collapses a column (or columns) down to just its unique values. Example: `distinct RemoteDeviceName`. Great for pulling one clean list out of hundreds of repeated rows, so an odd value stands out.
 
-## Phase 00 — Baseline
+
+## Q00 — Baseline
 
 Learned to scope a query and aggregate.
+
 - Built the reusable base: table, then `TimeGenerated between (...)`, then `DeviceName has_any (...)`.
 - Used `summarize Events = count() by DeviceName` to turn thousands of raw rows into one count per host.
 
-## Phase 01 — Initial Access
+<img width="646" height="71" alt="1 kql" src="https://github.com/user-attachments/assets/f394dad1-67fd-4d97-b083-dbdb7b979087" />
+
+## Q01 — Initial Access
 
 Learned to stack filters and pick columns.
 
@@ -29,31 +34,49 @@ Learned to stack filters and pick columns.
 - Used `project` to keep only the columns that answered the question: account, source IP, IP type, logon type.
 - Read `RemoteIPType == Public` off the result to confirm the source was external.
 
-## Queries run so far
-
-
-**Phase 00 — baseline count**
-
-
-<img width="646" height="71" alt="1 kql" src="https://github.com/user-attachments/assets/f394dad1-67fd-4d97-b083-dbdb7b979087" />
-
-
-
-**Phase 01 — successful external logon query**
-
-<img width="772" height="95" alt="2 kql" src="https://github.com/user-attachments/assets/a7c902b6-3cfb-438f-ad43-a764ae9cf682" />
-
-
-
-**Phase 01 — result**
 
 <img width="772" height="116" alt="3 kql" src="https://github.com/user-attachments/assets/b5eff574-4f9c-4148-947f-194192a40b97" />
 
 
+## Q02 — Order of Footholds
+
+Learned to compare across platforms with a time sort.
+
+- Dropped the Windows-only logon filter and filtered on external access (`RemoteIPType == "Public"`) so all three hosts could be compared.
+- Used `sort by TimeGenerated asc` so the earliest external login was the top row.
+
+<img width="661" height="123" alt="q02" src="https://github.com/user-attachments/assets/6f11163c-68e2-4ebd-bb87-832875501992" />
+
+
+
+
+
+
+## Q03 — Operator Workstation Name
+
+Learned `distinct`, and learned the hard way that a filter can hide the answer.
+
+- Used `distinct RemoteDeviceName` to pull one clean list of connecting machine names. The attacker's own workstation (`loranse`) stood out because it wasn't a Northpeak host.
+- Key takeaway: `distinct` is a tool I'll use constantly. When I only care about the unique values in a column, not every row, `distinct` gives me the short list to read.
+
+
+
+
+
+
+With AI help to understand the syntax for finding the answer, queries Q01 & A02 already provided the IP Address:
+<img width="649" height="98" alt="5 kql" src="https://github.com/user-attachments/assets/5058abf1-6993-418e-b6d0-cc121bce00da" />
+
+
+<img width="305" height="190" alt="4 kql-results" src="https://github.com/user-attachments/assets/b4caf042-cd87-4ac3-982b-c8b3609959b0" />
+
+
+
 ## Corrections and dead ends
 
-- **Empty results on first run.** Time range was set to "Last 24 hours" but the intrusion was weeks earlier. Fixed by pinning the window in the query. Lesson: the UI time range silently overrides you.
-- 
+- **Empty results on first run.** Time range was set to "Last 24 hours" but the intrusion was weeks earlier. Fixed by pinning the window in the query. Cost me a confused few minutes; lesson learned, the UI time range silently overrides you.
+- **Lowercase value returned nothing.** I wrote `LogonType == "remoteinteractive"` and got no results. KQL matches string values exactly, so it had to be `"RemoteInteractive"` with the right capitals. Lesson: the value inside the quotes is case-sensitive.
+- **A filter that hid the answer.** Keeping `LogonType == "RemoteInteractive"` while pulling `distinct RemoteDeviceName` returned empty. The machine name is on the Network logon rows, not the interactive ones, so the filter hid it. Dropping that one filter returned the name. Lesson: a filter that is right for one question can hide the answer to the next.
 
 ## Patterns I'm noticing
 
