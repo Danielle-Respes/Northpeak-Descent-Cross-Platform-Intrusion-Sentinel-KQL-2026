@@ -1,6 +1,6 @@
 # Prep for the July 15 Community Debrief
 
-I've been working the Northpeak hunt on my own. I got stuck at a few points but kept going, and I want to be open with the group about where those spots were so we can talk through them on July 15.
+I got stuck at a few points but kept going, and I want to be open with the group about where those spots were so we can talk through them on July 15.
 
 **Where I am:** Q00, Q01, and Q02 done. Working Q03 next.
 
