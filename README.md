@@ -41,9 +41,15 @@ I'm building toward Cyber Defense, GRC, and IAM, and I'm using this hunt to prac
 
 ## Investigation Journal
 
-**July 12:** Confirmed the workspace and ran the baseline count (Q00). Solved Q01: the real entry was an external RDP login from `148.64.103.173` on the `sancadmin` admin account, not the brute-force noise it looked like. Also noticed npt-linux01 carries about 78% of all process events, and flagged it as a lead to test in Q02.
+### July 12
 
-**Next:** Q02, Linux recon. Dig into what those Linux processes actually are and start separating the operator's activity from normal automation.
+- **Q00 — Baseline:** confirmed the workspace and ran the baseline count.
+- **Q01 — Initial Access:** real entry was an external RDP login from `148.64.103.173` on the `sancadmin` admin account.
+- **Q02 — Order of Footholds:** used timestamps to prove Windows (`npt-ws01`, 20:57) was first, over an hour before Linux (22:01). Debunked the "Linux first" assumption.
+- **Q03 — Operator Workstation:** found the attacker's own machine, `loranse`, leaking its name on every session.
+
+**Next:** Q04, Command and Control.
+
 
 ## Hunting Principles
 
