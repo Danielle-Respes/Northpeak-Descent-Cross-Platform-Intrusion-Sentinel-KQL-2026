@@ -1,24 +1,26 @@
-
 <img width="977" height="298" alt="Screenshot 2026-07-10 at 6 44 46 PM" src="https://github.com/user-attachments/assets/25afcbe8-3711-43da-b847-e579ed2eeee4" />
 
 # Northpeak Descent: Cross-Platform Intrusion Investigation
 
 **Senior Endpoint Technician | Cyber Defense | GRC | IAM**
 
-> **Status:** Active investigation. Q00 and Q01 complete, working Q02 (Linux recon).
+> **Status:** All four phases solved (Q00–Q04). Community debrief July 15.
 
 I'm a Senior Endpoint Technician moving into cyber defense. I'm using my background in system administration to build threat hunting and security analysis skills, and I document my process clearly so my work is transparent and useful to others.
 
 ---
+
 ## Mission
 
 My mission is to learn, document, and grow. This repo tracks my move from endpoint management into a security role, building toward cyber defense, GRC, and IAM. It's a self-directed practice project in the LOG(N) Pacific Cyber Range, and my first time through this scenario, so I'm treating it as reps: real telemetry, real dead ends, and understanding the why behind the data.
 
 ## Read the Investigation
 
-**→ [Incident Report](./Incident-Report.md)** — the full write-up: baseline, initial access, and the reconstructed chain as it develops.
+**→ [Incident Report](./Incident-Report.md)** — the full write-up: baseline, initial access, the order of footholds, the operator's workstation, and the server's access vector.
 
-**→ [Prep for the July 15 Community Debrief](./debrief-prep-july-15.md)** — where I got stuck, how I worked Q01, and the questions I'm bringing to the group.
+**→ [KQL Learning Log](./kql-learning-log.md)** — the syntax I learned, the dead ends, and the queries behind each finding.
+
+**→ [Prep for the July 15 Community Debrief](./debrief-prep-july-15.md)** — where I got stuck, how I worked each question, and what I'm bringing to the group.
 
 ## Why this matters for the roles I want
 
@@ -28,16 +30,22 @@ I'm building toward Cyber Defense, GRC, and IAM, and I'm using this hunt to prac
 - **GRC:** learning to document an investigation clearly and map findings to frameworks like the NIST Cybersecurity Framework.
 - **Remote work:** writing this up as a standalone artifact someone can follow without me in the room.
 
+## Attack Chain
+
+<img width="1485" height="1035" alt="attack-chain" src="https://github.com/user-attachments/assets/7991d735-93a2-4b92-be7e-dccb18bc0ca8" />
+
+
+The operator connected over RDP from `148.64.103.173` (workstation `loranse`) into `npt-ws01` first at 20:57, then reached `npt-srv01` (21:58) and `npt-linux01` (22:01), all on the valid `sancadmin` admin account. Reconstructed from my own Sentinel/MDE findings.
+
 ## Investigation Progress
 
 | Phase | Focus | Status |
 |---|---|---|
 | Q00 Setup Gate | Confirm workspace, submit gate phrase | Complete |
 | Q01 Initial Access | Real entry point, account, method | Complete |
-| Q02 Linux Recon | Escalation, tooling, pivot prep | Complete |
-| Q03 Pivot and Persistence | Internal movement, persistence | Complete |
-| Q04 Command and Control | C2 infrastructure, beacon channel | Working |
-| Q05 Impact | Data theft, session used, attack model | Not started |
+| Q02 Order of Footholds | Prove which host was hit first | Complete |
+| Q03 Operator Workstation | Identify the attacker's own machine | Complete |
+| Q04 srv01 Access Vector | Reconstruct the server's external entry | Complete |
 
 ## Investigation Journal
 
@@ -47,9 +55,9 @@ I'm building toward Cyber Defense, GRC, and IAM, and I'm using this hunt to prac
 - **Q01 — Initial Access:** real entry was an external RDP login from `148.64.103.173` on the `sancadmin` admin account.
 - **Q02 — Order of Footholds:** used timestamps to prove Windows (`npt-ws01`, 20:57) was first, over an hour before Linux (22:01). Debunked the "Linux first" assumption.
 - **Q03 — Operator Workstation:** found the attacker's own machine, `loranse`, leaking its name on every session.
+- **Q04 — srv01 Access Vector:** reconstructed the server's own external entry, RDP from `148.64.103.173`, RemoteInteractive. Did this one solo, no hints.
 
-**Next:** Q04, Command and Control.
-
+**Next:** community debrief on July 15, then Post-Debrief Reflections.
 
 ## Hunting Principles
 
@@ -92,7 +100,6 @@ To be filled in after the debrief:
 **THREAT DETECTED // NORTHPEAK LOGISTICS ESTATE**
 Intrusion window: 16 Jun 2026, 20:00 to 00:30 UTC
 Platforms: Windows + Linux
-Status: Active investigation
 
 Overnight the Northpeak Logistics estate lit up: a cross-platform intrusion using valid accounts, a chain that runs from a quiet foothold through to impact across both Windows and Linux hosts. The alert queue is loud with failed logons. It looks like brute force. It is not.
 
@@ -109,19 +116,15 @@ Overnight the Northpeak Logistics estate lit up: a cross-platform intrusion usin
 | Attack Chain | Initial Access, Recon, Pivot and Persistence, C2, Impact |
 | Community Debrief | Wednesday July 15, 2026, 22:00 UK / 21:00 UTC |
 
-**Attack Timeline** (fills in as evidence is confirmed)
+**Attack Timeline**
 
 | UTC | Event | Host | Confidence |
 |---|---|---|---|
 | ~20:00 | Intrusion window opens | Northpeak estate | |
-| 20:57 | First foothold: external login, sancadmin from 148.64.103.173 | npt-ws01 | Confirmed (Q02) |
-| 21:58 | External login | npt-srv01 | Confirmed (Q02) |
+| 20:57 | First foothold: external RDP login, sancadmin from 148.64.103.173 | npt-ws01 | Confirmed (Q02) |
+| 21:58 | External RDP login (RemoteInteractive), sancadmin | npt-srv01 | Confirmed (Q04) |
 | 22:01 | Linux accessed, over an hour after Windows | npt-linux01 | Confirmed (Q02) |
 | - | Operator workstation identified: loranse (source of the RDP sessions) | loranse | Confirmed (Q03) |
-| TBD | Internal pivot | | TBD |
-| TBD | Persistence established | | TBD |
-| TBD | C2 beacon | | TBD |
-| TBD | Impact, crown jewel reached | | TBD |
 | ~00:30 | Intrusion window closes | | |
 
 </details>
