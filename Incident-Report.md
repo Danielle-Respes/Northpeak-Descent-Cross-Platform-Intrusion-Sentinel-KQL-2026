@@ -87,3 +87,7 @@ The first foothold was npt-ws01 at 20:57:54, over an hour before Linux was touch
 **Note on logon types:** npt-ws01 shows Network logins at 20:57:54 immediately followed by RemoteInteractive at 20:58:02, same IP. That's one RDP connection establishing: the network auth lands first, then the interactive session opens. The Linux logins are Network type, not RemoteInteractive. Both count as successful remote access from outside; the type just describes how each session authenticated.
 
 **What this proves:** volume is not order. Linux looked central because it's noisy, but the timestamps show the operator started on the Windows workstation and reached Linux later. This is the "don't assume Linux first" trap the brief set, and the two timestamps side by side disprove it.
+
+**Hint used:** 1 of 2 (25 points). The hint pointed me to find the earliest external access on each host and not stay on one platform, which is what led me to drop the Windows-only logon filter.
+
+**Q02 answer:** `npt-ws01, 148.64.103.173`
