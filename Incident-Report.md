@@ -18,15 +18,13 @@ DeviceProcessEvents
 *   **Gate Phrase:** "Northpeak hunter ready."
 ```
 
-<img width="963" height="765" alt="process-events-by-host-pie" src="https://github.com/user-attachments/assets/898c5306-c13d-46ae-8d8d-f789e89054f9" />
+<img width="945" height="765" alt="process-events-by-host-pie" src="https://github.com/user-attachments/assets/848949da-2bd5-4312-987f-fcb2f82493e9" />
 
 
-![Baseline count — Linux host dominates process events](images/setup-baseline-linux-noise.png)
 
 **Observation:** the two Windows hosts sit at a near-identical baseline (~1,050 each),
 while npt-linux01 carries roughly 7x that volume — ~78% of all process telemetry.
 
-![Process events by host](images/process-events-by-host-pie.png)
 
 **Working note (not yet a conclusion):** this imbalance could mean the Linux host was
 the busier foothold, or simply that it's noisier by nature (cron, services, routine
