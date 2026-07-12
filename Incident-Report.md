@@ -26,13 +26,14 @@ DeviceProcessEvents
 
 **What I noticed:** the two Windows hosts sit near 1,050 events each, but npt-linux01 carries about 7x that, roughly 78% of all process telemetry.
 
-**What I'm not concluding yet:** a loud host isn't automatically the compromised one. That 7,175 could be the real workload, or just a naturally noisy Linux box (cron, services, automation). I'm holding it as a lead to test in Phase 02, not an answer.
+**Note:** high volume alone doesn't confirm compromise. The Linux count could be normal activity or the attacker's work. I'm treating it as a lead for Phase 02, not a conclusion.
+
 
 ## Phase 01: Initial Access
 
-The alert queue is a wall of failed logons that looks like brute force. The brief warned me not to trust that, and it was right: the real entry authenticated cleanly and never tripped an alarm. So I set the failures aside and went looking for the quiet success from outside.
+The alerts are full of failed logins, so it looks like brute force. But the brief said not to trust that, and it was right. The real entry logged in cleanly and never set off an alarm. So I stopped looking at the failures and went looking for the login that worked, from outside.
 
-**Question:** which logons succeeded, from an address outside the estate?
+**Question:** which logins worked, from an address outside the estate?
 
 ```kql
 DeviceLogonEvents
@@ -45,10 +46,10 @@ DeviceLogonEvents
 
 **What I found:**
 
-- **Source:** `148.64.103.173`, with `RemoteIPType` of `Public`, confirming an external origin. That's the entry point.
-- **Account:** `sancadmin`, a valid admin account. Nothing was exploited; they logged in with legitimate credentials.
-- **Method:** `LogonType` of `RemoteInteractive` on the Windows hosts, which is RDP.
+- **Source IP:** `148.64.103.173`. RemoteIPType is `Public`, so it's from outside. That's the way in.
+- **Account:** `sancadmin`, a real admin account. Nothing was hacked; they just logged in with valid credentials.
+- **How:** LogonType is `RemoteInteractive` on the Windows hosts, which means RDP.
 
-**How I got there:** I reused the scoped base from Phase 00 (table, time, host), then filtered to `LogonSuccess` to clear the brute-force noise, checked `RemoteIPType` to confirm the source was external, and used `LogonType` to pin the method as RDP. I took one of two hints (15 points) for the decoy versus signal direction, and I want to reach that instinct on my own next time.
+**How I got there:** I started with the same base as Phase 00 (table, time, host), then added `LogonSuccess` to drop the failed logins, checked `RemoteIPType` to confirm the source was outside, and used `LogonType` to find the method (RDP). I used one of the two hints (15 points) for the "it's a decoy, look at what succeeded" nudge, and I want to get to that on my own next time.
 
 **Q01 answer:** `148.64.103.173, RDP`
