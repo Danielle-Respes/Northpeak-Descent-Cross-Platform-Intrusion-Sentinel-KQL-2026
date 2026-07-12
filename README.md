@@ -35,8 +35,8 @@ I'm building toward Cyber Defense, GRC, and IAM, and I'm using this hunt to prac
 | Q00 Setup Gate | Confirm workspace, submit gate phrase | Complete |
 | Q01 Initial Access | Real entry point, account, method | Complete |
 | Q02 Linux Recon | Escalation, tooling, pivot prep | Complete |
-| Q03 Pivot and Persistence | Internal movement, persistence | Working |
-| Q04 Command and Control | C2 infrastructure, beacon channel | Not started |
+| Q03 Pivot and Persistence | Internal movement, persistence | Complete |
+| Q04 Command and Control | C2 infrastructure, beacon channel | Working |
 | Q05 Impact | Data theft, session used, attack model | Not started |
 
 ## Investigation Journal
@@ -111,6 +111,7 @@ Overnight the Northpeak Logistics estate lit up: a cross-platform intrusion usin
 | 20:57 | First foothold: external login, sancadmin from 148.64.103.173 | npt-ws01 | Confirmed (Q02) |
 | 21:58 | External login | npt-srv01 | Confirmed (Q02) |
 | 22:01 | Linux accessed, over an hour after Windows | npt-linux01 | Confirmed (Q02) |
+| - | Operator workstation identified: loranse (source of the RDP sessions) | loranse | Confirmed (Q03) |
 | TBD | Internal pivot | | TBD |
 | TBD | Persistence established | | TBD |
 | TBD | C2 beacon | | TBD |
