@@ -8,11 +8,9 @@
 This repository documents a self-directed threat hunting investigation conducted within the LOG(N) Pacific Cyber Range. As this is my first time executing this specific scenario, I am treating this as a deliberate reps focused practice project to build proficiency in Microsoft Sentinel and KQL.
 
 ---
-## 📄 Read the Investigation
+## Read the Investigation
 
 **→ [Incident Report](./Incident-Report.md)** — the full write-up: baseline, initial access, and the reconstructed chain as it develops.
-
-Supporting detail lives in the per-phase notes and query log linked below.
 
 ---
 
@@ -130,20 +128,6 @@ The alert queue is loud with failed logons. It looks like brute force. It is not
 | Phase 03 Pivot and Persistence | Internal movement, persistence mechanism | Not Started |
 | Phase 04 Command and Control | C2 infrastructure, beacon channel | Not Started |
 | Phase 05 Impact | Data theft, session used, attack model | Not Started |
-
----
-
-## Documents
-
-| File | Description |
-|---|---|
-| [phase-01-initial-access.md](./phase-01-initial-access.md) | Real entry point — separate signal from noise |
-| [phase-02-linux-recon.md](./phase-02-linux-recon.md) | Escalation and pivot tooling on Linux host |
-| [phase-03-pivot-persistence.md](./phase-03-pivot-persistence.md) | Internal movement and persistence |
-| [phase-04-c2.md](./phase-04-c2.md) | Command and control infrastructure |
-| [phase-05-impact.md](./phase-05-impact.md) | Data theft and attack model |
-| [kql-queries.md](./kql-queries.md) | Every query run — including dead ends |
-| [attack-timeline.md](./attack-timeline.md) | Full reconstructed chain |
 
 ---
 
