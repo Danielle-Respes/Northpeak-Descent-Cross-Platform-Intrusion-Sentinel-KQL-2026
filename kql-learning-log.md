@@ -64,7 +64,7 @@ Learned `distinct`, and learned the hard way that a filter can hide the answer.
 
 
 
-With AI help to understand the syntax for finding the answer, queries Q01 & A02 already provided the IP Address:
+The IP address (148.64.103.173) was already known from Q01 and Q02. I worked out the `distinct` syntax with AI help; the interpretation, that `loranse` is the attacker's workstation because it isn't a Northpeak host, is mine.
 <img width="649" height="98" alt="5 kql" src="https://github.com/user-attachments/assets/5058abf1-6993-418e-b6d0-cc121bce00da" />
 
 
