@@ -88,6 +88,8 @@ The first foothold was npt-ws01 at 20:57:54, over an hour before Linux was touch
 
 **What this proves:** volume is not order. Linux looked central because it's noisy, but the timestamps show the operator started on the Windows workstation and reached Linux later. This is the "don't assume Linux first" trap the brief set, and the two timestamps side by side disprove it.
 
-**Hint used:** 1 of 2 (25 points). The hint pointed me to find the earliest external access on each host and not stay on one platform, which is what led me to drop the Windows-only logon filter.
+**Hint used:** 1 of 2 (25 points). The hint said to find the earliest external access on each host and not stay on one platform.
+
+**Assistance:** I worked out the query approach for this one with my AI tutor, specifically dropping the Windows-only `RemoteInteractive` filter and comparing on external access instead. The reasoning about what the result meant, that Windows came before Linux and why volume isn't order, is my own.
 
 **Q02 answer:** `npt-ws01, 148.64.103.173`
