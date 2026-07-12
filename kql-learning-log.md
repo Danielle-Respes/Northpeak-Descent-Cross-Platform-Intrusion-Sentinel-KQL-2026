@@ -30,11 +30,31 @@ Learned to stack filters and pick columns.
 - Used `project` to keep only the columns that answered the question: account, source IP, IP type, logon type.
 - Read `RemoteIPType == Public` off the result to confirm the source was external.
 
+## Queries run so far
+
+**Phase 00 — baseline count**
+
+
+<img width="646" height="71" alt="1 kql" src="https://github.com/user-attachments/assets/f394dad1-67fd-4d97-b083-dbdb7b979087" />
+
+
+
+**Phase 01 — successful external logon query**
+
+<img width="772" height="95" alt="2 kql" src="https://github.com/user-attachments/assets/a7c902b6-3cfb-438f-ad43-a764ae9cf682" />
+
+
+
+**Phase 01 — result**
+
+<img width="772" height="116" alt="3 kql" src="https://github.com/user-attachments/assets/b5eff574-4f9c-4148-947f-194192a40b97" />
+
+
 ## Corrections and dead ends
 
 - **Empty results on first run.** Time range was set to "Last 24 hours" but the intrusion was weeks earlier. Fixed by pinning the window in the query. Lesson: the UI time range silently overrides you.
 - **`LogonType == 10` returned nothing.** DeviceLogonEvents stores LogonType as a string, not a number. Fixed with `"RemoteInteractive"`. Lesson: check a column's data type before filtering.
-- **Ran the wrong query.** Two queries were stacked in the editor and the cursor decides which block runs. Lesson: clear old queries or place the cursor in the right block.
+
 
 ## Patterns I'm noticing
 
