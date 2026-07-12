@@ -72,14 +72,28 @@ The IP address (148.64.103.173) was already known from Q01 and Q02. I worked out
 
 
 
+## Q04 — srv01 Access Vector
+
+Did this one solo, no hints.
+
+- Scoped to `npt-srv01` and filtered on `RemoteIPType == "Public"`, reasoning that if it wasn't reached from inside, the login had to come from outside.
+- The `LogonType` column held three values: `RemoteInteractive`, `Network`, and `Unlock`. Learned to tell them apart: Network is the credential handshake, Unlock is reopening an existing session, and RemoteInteractive is the actual way in (RDP).
+- Learned the difference between the method and the logon type: RDP is what I call it, `RemoteInteractive` is what the log calls it. They go in different answer slots.
+- Added `RemoteDeviceName` back to my projection to corroborate the operator, but it was empty here (no `loranse`). Takeaway: when my usual corroborating field is blank, find a different signal rather than settling for one.
+
+
+<img width="674" height="141" alt="last2 kql" src="https://github.com/user-attachments/assets/8178a8a6-137b-4669-9a13-31c5e8b3fbe8" />
+
 ## Corrections and dead ends
 
 - **Empty results on first run.** Time range was set to "Last 24 hours" but the intrusion was weeks earlier. Fixed by pinning the window in the query. Cost me a confused few minutes; lesson learned, the UI time range silently overrides you.
 - **Lowercase value returned nothing.** I wrote `LogonType == "remoteinteractive"` and got no results. KQL matches string values exactly, so it had to be `"RemoteInteractive"` with the right capitals. Lesson: the value inside the quotes is case-sensitive.
 - **A filter that hid the answer.** Keeping `LogonType == "RemoteInteractive"` while pulling `distinct RemoteDeviceName` returned empty. The machine name is on the Network logon rows, not the interactive ones, so the filter hid it. Dropping that one filter returned the name. Lesson: a filter that is right for one question can hide the answer to the next.
+- **Corroborating field came back empty.** On Q04 I added `RemoteDeviceName` to confirm srv01's session tied to the operator's `loranse` workstation, but the column was blank for those sessions. My answer still held on the matching IP, but it left me with one signal instead of two. Lesson: when the field I want to corroborate with is empty, go find a different corroborator rather than assuming.
 
 ## Patterns I'm noticing
 
 Every query starts the same way: table, then time filter, then host filter, then the question-specific `where` clauses. That skeleton (table, time, host) is becoming automatic, which feels good.
 
 `project` trims columns; `summarize` collapses rows into groups. Different jobs.
+
