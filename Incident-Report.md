@@ -9,6 +9,9 @@
 
 I use an AI assistant as a tutor to help me understand KQL syntax. It helps me learn the how and why behind the commands, which I then validate and interpret myself. My syntax notes and dead ends are in [kql-learning-log.md](./kql-learning-log.md).
 
+---
+
+
 ## Q00: Baseline and Setup
 
 Before hunting anything, I confirmed I was on the right workspace and could query it. One scoped count proved three things at once: access, a working host filter, and real data in the intrusion window.
@@ -28,6 +31,7 @@ DeviceProcessEvents
 
 **Note:** high volume alone doesn't confirm compromise. The Linux count could be normal activity or the attacker's work. I'm treating it as a lead for Q02, not a conclusion.
 
+---
 
 ## Q01: Initial Access
 
@@ -53,6 +57,8 @@ DeviceLogonEvents
 **How I got there:** I started with the same base as  Q00 (table, time, host), then added `LogonSuccess` to drop the failed logins, checked `RemoteIPType` to confirm the source was outside, and used `LogonType` to find the method (RDP). I used one of the two hints (15 points) for the "it's a decoy, look at what succeeded" and I want to get to that on my own next time.
 
 **Q01 answer:** `148.64.103.173, RDP`
+
+---
 
 ## Q02: Which Foothold Came First
 
@@ -94,6 +100,8 @@ The first foothold was npt-ws01 at 20:57:54, over an hour before Linux was touch
 
 **Q02 answer:** `npt-ws01, 148.64.103.173`
 
+---
+
 
 ## Q03: Operator Workstation Name
 
@@ -105,9 +113,23 @@ The lead said the operator was sloppy: something they connected with announced i
 - I first wrote `LogonType == "remoteinteractive"` in lowercase and got nothing. KQL matches string values exactly, so it had to be `"RemoteInteractive"` with the right capitals.
 - I wrote `RemoteIP == 148.64.103.173"` and it wouldn't run, I'd dropped the opening quote and had spacing issues on the `where` lines. Fixed to `"148.64.103.173"` with clean spacing.
 
-**Hint used:** 1 of 1 (15 points). "Their inbound sessions carried more than an address." That confirmed the answer was the name of the remote machine riding in alongside the IP, not a process.
+**The query I typed to work the attacker's sessions** (after the fixes above):
 
-**The query that found it:**
+```kql
+DeviceLogonEvents
+|where TimeGenerated between (datetime(2026-06-16 18:00) .. datetime(2026-06-17 02:00))
+|where DeviceName has_any ("npt-ws01","npt-srv01","npt-linux01")
+|where ActionType == "LogonSuccess"
+|where LogonType == "RemoteInteractive"
+|where RemoteIP == "148.64.103.173"
+|project AccountName, ActionType,DeviceName, InitiatingProcessFolderPath,LogonType,RemoteIP,RemoteIPType
+```
+
+This is where I saw `svchost.exe` in the process column and ruled it out. But it didn't surface the workstation name, because this query filters to `RemoteInteractive` only, and the name rides in on the Network logon rows.
+
+**Hint used:** 1 of 2 (15 points). "Their inbound sessions carried more than an address." That confirmed the answer was the name of the remote machine riding in alongside the IP, not a process.
+
+**The query that found it** (worked out with my AI tutor):
 
 ```kql
 DeviceLogonEvents
@@ -123,6 +145,6 @@ DeviceLogonEvents
 
 **Note, two queries for two questions:** My earlier logon query kept `LogonType == "RemoteInteractive"`, which was right for finding the RDP method. But when I added `distinct RemoteDeviceName` to that same filtered query, it returned empty. The hostname is recorded on the Network logon rows, not the RemoteInteractive ones, so the interactive filter hid it. Dropping that filter returned the name. Lesson: a filter that's correct for one question can hide the answer to the next. This is the second time an over-specific RemoteInteractive filter cost me data (it also hid Linux in Q02).
 
-**Hint used:** 1 of 2 (15 points). "Their inbound sessions carried more than an address." That confirmed the answer was the name of the remote machine riding in alongside the IP, not a process.
-
 **Q03 answer:** `loranse`
+
+---
