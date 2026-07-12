@@ -36,7 +36,8 @@ Windows was first by over an hour. Volume is not order. Linux only looked centra
 - npt-linux01 has about 78% of the process events. How do you tell the attacker's activity from normal Linux automation when both use valid accounts?
 - Is RemoteIP the best thing to pivot on, or is there something better?
 
-- ## Q03: Operator workstation name
+
+## Q03: Operator workstation name
 
 Find the machine the attacker connected from, which leaked its name on every session.
 
@@ -54,6 +55,7 @@ Find the machine the attacker connected from, which leaked its name on every ses
 **Where I used help:** 1 of 2 hints (15 points), "their inbound sessions carried more than an address," which confirmed I was after a machine name riding in with the IP.
 
 **Answer:** the operator's workstation is `loranse`, a name that isn't a Northpeak host and rode in on every session from 148.64.103.173.
+
 
 ## Q04: How srv01 was accessed (no hints, did this one solo)
 
@@ -83,6 +85,7 @@ So the vector is `RemoteInteractive` (RDP), from 148.64.103.173.
 **Corroboration I went looking for:** I added `RemoteDeviceName` back to my projection to check for `loranse` (the operator workstation from Q03). It did NOT show up, that column was empty for these sessions. So my answer rested on a single signal: the matching IP (148.64.103.173) plus my reasoning about the logon type. It was right, but that was my best judgment, not a locked-down confirmation. The lesson: when my usual corroborating field is blank, find a different corroborator (like whether the 21:58 timestamp lines up with the operator's activity elsewhere) rather than settling for one signal.
 
 **Q04 answer:** `RDP, 148.64.103.173, RemoteInteractive`
+
 
 ## What I want to ask the group
 
