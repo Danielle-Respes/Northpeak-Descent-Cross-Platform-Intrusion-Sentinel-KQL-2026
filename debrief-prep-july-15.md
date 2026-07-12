@@ -55,6 +55,35 @@ Find the machine the attacker connected from, which leaked its name on every ses
 
 **Answer:** the operator's workstation is `loranse`, a name that isn't a Northpeak host and rode in on every session from 148.64.103.173.
 
+## Q04: How srv01 was accessed (no hints, did this one solo)
+
+Reconstruct how npt-srv01 was reached. The lead said it "took its own way in, it wasn't reached from inside," so it had to be an external login, not an internal pivot.
+
+**How I built it:** I reasoned "not reached from inside, so it had to be public," so I scoped to `npt-srv01`, filtered `RemoteIPType == "Public"` and `ActionType == "LogonSuccess"`, then projected the columns I needed. No hints, worked the whole query myself.
+
+```kql
+DeviceLogonEvents
+| where TimeGenerated between (datetime(2026-06-16 18:00) .. datetime(2026-06-17 02:00))
+| where DeviceName == "npt-srv01"
+| where ActionType == "LogonSuccess"
+| where RemoteIPType == "Public"
+| project TimeGenerated, DeviceName, AccountName, RemoteIP, LogonType, RemoteDeviceName
+| sort by TimeGenerated asc
+```
+
+**The real thinking, three values in one column:** the `LogonType` column had three different values: `RemoteInteractive`, `Network`, and `Unlock`. I had to work out which one was the actual access vector:
+- `Network` is the credential-check handshake.
+- `Unlock` is reopening an already-open session.
+- `RemoteInteractive` is a hands-on remote desktop session opening, that's the way in.
+
+So the vector is `RemoteInteractive` (RDP), from 148.64.103.173.
+
+**A mistake I caught myself:** I first wrote the answer with RDP in the logon_type slot. But RDP is the method, and RemoteInteractive is the logon_type, they're not the same thing. RDP is what I call it, RemoteInteractive is what the log calls it. Fixed the order to match the format.
+
+**Corroboration I went looking for:** I added `RemoteDeviceName` back to my projection to check for `loranse` (the operator workstation from Q03). It did NOT show up, that column was empty for these sessions. So my answer rested on a single signal: the matching IP (148.64.103.173) plus my reasoning about the logon type. It was right, but that was my best judgment, not a locked-down confirmation. The lesson: when my usual corroborating field is blank, find a different corroborator (like whether the 21:58 timestamp lines up with the operator's activity elsewhere) rather than settling for one signal.
+
+**Q04 answer:** `RDP, 148.64.103.173, RemoteInteractive`
+
 ## What I want to ask the group
 
 - I don't expect to have all the answers. I want to see how other people navigate these pivots so I can refine my own approach.
