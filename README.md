@@ -3,191 +3,123 @@
 
 # Northpeak Descent: Cross-Platform Intrusion Investigation
 
-## Overview
+**Senior Endpoint Technician | Cyber Defense | GRC | IAM**
 
-This repository documents a self-directed threat hunting investigation conducted within the LOG(N) Pacific Cyber Range. As this is my first time executing this specific scenario, I am treating this as a deliberate reps focused practice project to build proficiency in Microsoft Sentinel and KQL.
+> **Status:** Active investigation. Q00 and Q01 complete, working Q02 (Linux recon).
+
+I'm a Senior Endpoint Technician moving into cyber defense. I'm using my background in system administration to build threat hunting and security analysis skills, and I document my process clearly so my work is transparent and useful to others.
 
 ---
+## Mission
+
+My mission is to learn, document, and grow. This repo tracks my move from endpoint management into a security role, building toward cyber defense, GRC, and IAM. It's a self-directed practice project in the LOG(N) Pacific Cyber Range, and my first time through this scenario, so I'm treating it as reps: real telemetry, real dead ends, and understanding the why behind the data.
+
 ## Read the Investigation
 
 **→ [Incident Report](./Incident-Report.md)** — the full write-up: baseline, initial access, and the reconstructed chain as it develops.
 
----
+**→ [Prep for the July 15 Community Debrief](./debrief-prep-july-15.md)** — where I got stuck, how I worked Q01, and the questions I'm bringing to the group.
 
+## Why this matters for the roles I want
 
-## Practice and Community Learning
+I'm building toward Cyber Defense, GRC, and IAM, and I'm using this hunt to practice the skills each one needs:
 
-> I believe real expertise is built in the noise by navigating real telemetry and dead ends to understand the why behind the data.
-
-**Methodology:** I am focusing on iterative query refinement, pivot analysis, and reducing signal noise within complex datasets.
-
-**Community Engagement:** I am attending a community technical debrief on July 15, 2026, to validate my findings, pressure test my logic, and compare my hunting patterns against peer workflows.
-
-**→ [Prep for the July 15 Community Debrief](https://github.com/Danielle-Respes/Northpeak-Descent-Cross-Platform-Intrusion-Sentinel-KQL-2026/blob/main/debrief-prep-july-15.md)** — where I got stuck, how I worked Q01, and the questions I'm bringing to the group.
-
-**Continuous Improvement:** Following the debrief, I will update this repository with refined pivot logic and key lessons learned.
-
----
-
-## Investigation Journal
-
-> **July 12:** TBD plan:  Initial environment setup and telemetry baselining. Encountered significant noise in MDE DeviceEvents while attempting to isolate anomalous process execution.
->
-> **July 13:** TBD plan:  Focused on query refinement. Successfully identified a pivot point after filtering out standard service account activity and administrative noise.
->
-> **July 14:** TBD plan:  Deep dive into cross-platform anomalies. Working on reducing false positives in the investigation logic to isolate the core intrusion pattern.
-
----
-
-## Post Debrief Reflections
-
-> *This section will be updated after the community technical debrief on July 15, 2026, to include peer feedback and refined hunting logic.*
-
----
-
-## Career Signal — What This Demonstrates
-
-*   **For SOC Roles:** Demonstrates end-to-end incident response, including multi-SIEM telemetry correlation (Sentinel/MDE), KQL-based pivot analysis, and proactive detection engineering developed from confirmed investigation findings.
-
-*   **For GRC Roles:** Demonstrates adherence to the NIST Cybersecurity Framework (Detect, Respond, Recover), formal incident documentation, and the ability to translate technical findings into business-impact reports for leadership.
-
-*   **For Remote Roles:** Proves effective asynchronous communication skills. This report is structured as a standalone artifact—providing clear, actionable data that requires minimal clarification, mirroring the standard for high-performance remote teams.
-
---- 
-
-
-## Technical Stack
-[![Platform](https://img.shields.io/badge/SIEM-Microsoft%20Sentinel-0078D4?style=flat-square&logo=microsoft&logoColor=white)](https://azure.microsoft.com/en-us/products/microsoft-sentinel)
-[![Telemetry](https://img.shields.io/badge/Telemetry-Defender%20XDR-0078D4?style=flat-square&logo=microsoft&logoColor=white)](https://www.microsoft.com/en-us/security/business/siem-and-xdr/microsoft-defender-xdr)
-[![Language](https://img.shields.io/badge/Query%20Language-KQL-00B4D8?style=flat-square)](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/)
-[![Mode](https://img.shields.io/badge/Mode-Practice-orange?style=flat-square)]()
-[![Debrief](https://img.shields.io/badge/Community%20Debrief-July%2015%202026-red?style=flat-square)]()
-
-**Platform:** Microsoft Sentinel
-
-**Query Language:** Kusto Query Language (KQL)
-
-**Endpoint Analysis:** Microsoft Defender for Endpoint (MDE)
-
-## Role-Specific Takeaways
-
-> I approach every investigation by considering the unique priorities of the security team.
-
-*   **SOC Analyst Lens:** My methodology focuses on reducing "mean time to detect" (MTTD). In this investigation, I demonstrate how KQL pivoting moved me from initial alert to confirmed attacker command line. Each report includes a proposed detection rule to automate future defenses.
-
-*   **GRC Analyst Lens:** I view incidents through the lens of risk and compliance. I identify the specific security controls (NIST CSF) impacted and translate technical findings into business-impact summaries suitable for leadership.
-
-*   **Remote Work Evidence:** This report is written for clarity and asynchronous consumption. By documenting my thought process and providing high-fidelity logs, I ensure that my work is fully transparent and actionable for any team member, regardless of their location.
-
-
-</div>
-
----
-
-```
-THREAT DETECTED // NORTHPEAK LOGISTICS ESTATE
-INTRUSION WINDOW: 16 JUN 2026 // 20:00 – 00:30 UTC
-PLATFORMS: WINDOWS + LINUX
-STATUS: ACTIVE INVESTIGATION
-```
-
----
-
-## The Scenario
-
-Overnight the Northpeak Logistics estate lit up. A cross-platform intrusion — valid accounts, a chain that runs from a quiet foothold through to impact across both Windows and Linux hosts.
-
-The alert queue is loud with failed logons. It looks like brute force. It is not.
-
-> **"Night shift already logged a cause on this one. I am not sold. Work the incident yourself, follow the evidence, and tell me what actually happened, in order."**
-> — Hunt Lead, SancLogic
-
----
-
-## Environment
-
-| Field | Details |
-|---|---|
-| Target | Northpeak Logistics — Windows estate + Linux host |
-| SIEM | Microsoft Sentinel |
-| Telemetry | Microsoft Defender XDR + Sentinel |
-| Workspace | LAW-Cyber Range Sentinel |
-| Query Language | KQL (Kusto Query Language) |
-| Attack Chain | Initial Access → Recon → Pivot and Persistence → C2 → Impact |
-| Hunt Built By | Dogukan Oruc // Hunt Lead: SancLogic // LOG(N) Pacific Cyber Range |
-| Mode | Practice — working after contest close to learn properly |
-| Community Debrief | Wednesday July 15, 2026 @ 22:00 UK / 21:00 UTC |
-
----
+- **Cyber Defense / SOC:** working real telemetry in Microsoft Sentinel and KQL, and pivoting from alert noise to the activity that actually matters.
+- **GRC:** learning to document an investigation clearly and map findings to frameworks like the NIST Cybersecurity Framework.
+- **Remote work:** writing this up as a standalone artifact someone can follow without me in the room.
 
 ## Investigation Progress
 
 | Phase | Focus | Status |
 |---|---|---|
 | Q00 Setup Gate | Confirm workspace, submit gate phrase | Complete |
-| Phase 01 Initial Access | Real entry point, order of footholds, operator client | In Progress |
-| Phase 02 Linux Recon | Escalation, tooling, pivot preparation | Not Started |
-| Phase 03 Pivot and Persistence | Internal movement, persistence mechanism | Not Started |
-| Phase 04 Command and Control | C2 infrastructure, beacon channel | Not Started |
-| Phase 05 Impact | Data theft, session used, attack model | Not Started |
+| Q01 Initial Access | Real entry point, account, method | Complete |
+| Q02 Linux Recon | Escalation, tooling, pivot prep | Next |
+| Q03 Pivot and Persistence | Internal movement, persistence | Not started |
+| Q04 Command and Control | C2 infrastructure, beacon channel | Not started |
+| Q05 Impact | Data theft, session used, attack model | Not started |
 
----
+## Investigation Journal
 
-## Attack Timeline
+**July 12:** Confirmed the workspace and ran the baseline count (Q00). Solved Q01: the real entry was an external RDP login from `148.64.103.173` on the `sancadmin` admin account, not the brute-force noise it looked like. Also noticed npt-linux01 carries about 78% of all process events, and flagged it as a lead to test in Q02.
 
-> Built in real time as evidence is confirmed across phases
-
-| UTC | Event | Host | Source | Confidence |
-|---|---|---|---|---|
-| ~20:00 | Intrusion window opens | Northpeak estate | | |
-| TBD | Real initial access — not brute force | | Sentinel | |
-| TBD | Linux host activity | npt-linux01 | Defender XDR | |
-| TBD | Internal pivot | | Sentinel | |
-| TBD | Persistence established | | MDE Registry | |
-| TBD | C2 beacon | | MDE Network | |
-| TBD | Impact — crown jewel reached | | MDE File | |
-| ~00:30 | Intrusion window closes | | | |
-
----
+**Next:** Q02, Linux recon. Dig into what those Linux processes actually are and start separating the operator's activity from normal automation.
 
 ## Hunting Principles
 
-```
-01  Filter first — every query scoped to Northpeak hosts
-02  Separate signal from noise — the brute force storm is bait
-03  Prove the order — two platforms, timestamps decide
-04  Pivot on identity — one account and one address thread the case
-05  Separate human from machine — hands-on-keyboard vs automation
-06  Treat absence as evidence — what they did not do matters too
-07  Then tell the story — entry to pivot to persistence to C2 to impact
-```
+These are the principles from the hunt brief that I'm using as my north star, to keep the noise from drowning out the signal:
 
----
+1. Filter first: scope every query to the Northpeak hosts.
+2. Separate signal from noise: the brute-force storm is bait.
+3. Prove the order: two platforms, let the timestamps decide.
+4. Pivot on identity: one account and one address thread the case.
+5. Separate human from machine: hands-on-keyboard vs automation.
+6. Treat absence as evidence: what they did not do matters too.
+7. Then tell the story: entry, pivot, persistence, C2, impact.
+
+## Technical Stack
+
+- **SIEM:** Microsoft Sentinel
+- **Endpoint telemetry:** Microsoft Defender for Endpoint (MDE)
+- **Query language:** Kusto Query Language (KQL)
+- **Mode:** Practice, working after contest close to learn properly
+
+## Post-Debrief Reflections
+
+To be filled in after the July 15 debrief: peer feedback, and any hunting logic I refine as a result.
 
 ## What I Learned
 
-> Filled in after the community debrief — Wednesday July 15, 2026
-
-**What the hunt was designed to teach:**
-
-**Where I got stuck:**
-
-**What the debrief clarified:**
-
-**What I would do faster next time:**
+To be filled in after the debrief:
+- What the hunt was designed to teach
+- Where I got stuck
+- What the debrief clarified
+- What I'd do faster next time
 
 ---
 
-<div align="center">
+<details>
+<summary><strong>Scenario and hunt details</strong></summary>
 
-This is my first CTF-style threat hunt — working in practice mode to learn how to hunt properly, not to optimise for done.
-Every query, every dead end, every wrong turn is documented.
+<br>
 
+**THREAT DETECTED // NORTHPEAK LOGISTICS ESTATE**
+Intrusion window: 16 Jun 2026, 20:00 to 00:30 UTC
+Platforms: Windows + Linux
+Status: Active investigation
 
-[Portfolio](https://github.com/Danielle-Respes) &nbsp;|&nbsp; [LinkedIn](https://www.linkedin.com/in/danielle-respes-64113767/)
+Overnight the Northpeak Logistics estate lit up: a cross-platform intrusion using valid accounts, a chain that runs from a quiet foothold through to impact across both Windows and Linux hosts. The alert queue is loud with failed logons. It looks like brute force. It is not.
 
+> "Night shift already logged a cause on this one. I am not sold. Work the incident yourself, follow the evidence, and tell me what actually happened, in order." — Hunt Lead, SancLogic
 
+**Environment**
 
+| Field | Details |
+|---|---|
+| Target | Northpeak Logistics: Windows estate + Linux host |
+| SIEM | Microsoft Sentinel |
+| Telemetry | Microsoft Defender XDR + Sentinel |
+| Workspace | LAW-Cyber Range Sentinel |
+| Attack Chain | Initial Access, Recon, Pivot and Persistence, C2, Impact |
+| Community Debrief | Wednesday July 15, 2026, 22:00 UK / 21:00 UTC |
 
-LOG(N) Pacific Cyber Range // NORTHPEAK DESCENT // built by @Dogukan Oruc
-</div>
+**Attack Timeline** (fills in as evidence is confirmed)
+
+| UTC | Event | Host | Confidence |
+|---|---|---|---|
+| ~20:00 | Intrusion window opens | Northpeak estate | |
+| TBD | Initial access: external RDP, sancadmin | Windows | Confirmed (Q01) |
+| TBD | Linux host activity | npt-linux01 | TBD |
+| TBD | Internal pivot | | TBD |
+| TBD | Persistence established | | TBD |
+| TBD | C2 beacon | | TBD |
+| TBD | Impact, crown jewel reached | | TBD |
+| ~00:30 | Intrusion window closes | | |
+
+</details>
+
+---
+
+Hunt built by Dogukan Oruc // LOG(N) Pacific Cyber Range
+
+[Portfolio](https://github.com/Danielle-Respes) | [LinkedIn](https://www.linkedin.com/in/danielle-respes-64113767/)
