@@ -8,6 +8,14 @@
 This repository documents a self-directed threat hunting investigation conducted within the LOG(N) Pacific Cyber Range. As this is my first time executing this specific scenario, I am treating this as a deliberate reps focused practice project to build proficiency in Microsoft Sentinel and KQL.
 
 ---
+## 📄 Read the Investigation
+
+**→ [Incident Report](./Incident-Report.md)** — the full write-up: baseline, initial access, and the reconstructed chain as it develops.
+
+Supporting detail lives in the per-phase notes and query log linked below.
+
+---
+
 
 ## Practice and Community Learning
 
