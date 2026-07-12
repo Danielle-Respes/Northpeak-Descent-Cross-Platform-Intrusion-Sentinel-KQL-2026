@@ -93,3 +93,36 @@ The first foothold was npt-ws01 at 20:57:54, over an hour before Linux was touch
 **Assistance:** I worked out the query approach for this one with my AI tutor, specifically dropping the Windows-only `RemoteInteractive` filter and comparing on external access instead. The reasoning about what the result meant, that Windows came before Linux and why volume isn't order, is my own.
 
 **Q02 answer:** `npt-ws01, 148.64.103.173`
+
+
+## Q03: Operator Workstation Name
+
+The lead said the operator was sloppy: something they connected with announced itself on every remote session, and I needed to name it. The answer format was a hostname, so I was looking for a machine name, not an IP or a tool.
+
+**My first read (and where it went wrong):** I thought "something they connected with" meant a tool or process the attacker used to connect, so I went back to my logon results and looked at the process column. I found `svchost.exe -k netsvcs` running under sancadmin. But svchost.exe is a native Windows process, it runs on every Windows machine, so it wasn't an attacker tool. Dead end. That result plus the `hostname` answer format told me I was looking for a machine name, not a process.
+
+**Syntax I fixed along the way:**
+- I first wrote `LogonType == "remoteinteractive"` in lowercase and got nothing. KQL matches string values exactly, so it had to be `"RemoteInteractive"` with the right capitals.
+- I wrote `RemoteIP == 148.64.103.173"` and it wouldn't run, I'd dropped the opening quote and had spacing issues on the `where` lines. Fixed to `"148.64.103.173"` with clean spacing.
+
+**Hint used:** 1 of 1 (15 points). "Their inbound sessions carried more than an address." That confirmed the answer was the name of the remote machine riding in alongside the IP, not a process.
+
+**The query that found it:**
+
+```kql
+DeviceLogonEvents
+| where TimeGenerated between (datetime(2026-06-16 18:00) .. datetime(2026-06-17 02:00))
+| where RemoteIP == "148.64.103.173"
+| where ActionType == "LogonSuccess"
+| distinct RemoteDeviceName
+```
+
+`distinct` was new syntax for me. It collapses a column down to just its unique values, so instead of hundreds of session rows I got a short list: a blank, and `loranse`.
+
+**What I found:** `loranse`. It isn't one of the Northpeak hosts (npt-ws01, npt-srv01, npt-linux01), so it's a foreign machine name that rode in on the attacker's sessions from 148.64.103.173. That's the operator's own workstation, leaking its name on every connection.
+
+**Note, two queries for two questions:** My earlier logon query kept `LogonType == "RemoteInteractive"`, which was right for finding the RDP method. But when I added `distinct RemoteDeviceName` to that same filtered query, it returned empty. The hostname is recorded on the Network logon rows, not the RemoteInteractive ones, so the interactive filter hid it. Dropping that filter returned the name. Lesson: a filter that's correct for one question can hide the answer to the next. This is the second time an over-specific RemoteInteractive filter cost me data (it also hid Linux in Q02).
+
+**Hint used:** 1 of 2 (15 points). "Their inbound sessions carried more than an address." That confirmed the answer was the name of the remote machine riding in alongside the IP, not a process.
+
+**Q03 answer:** `loranse`
