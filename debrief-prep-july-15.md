@@ -4,10 +4,9 @@ The group meets Wednesday July 15 to walk through this hunt together. Here's the
 
 **Where I am:** Q00 and Q01 done. Working Q02 now.
 
-**Where I got stuck:**
-- Empty results at first. My time range was "Last 24 hours" but the intrusion was weeks back. Fixed it by setting the window inside the query.
+## Corrections and dead ends
 
-
+- **Empty results on first run.** Time range was set to "Last 24 hours" but the intrusion was weeks earlier. Fixed by pinning the window in the query. Lesson: the UI time range silently overrides you.
 **How I worked Q01:**
 - Ignored the failed logins (the decoy), filtered to successful logins from outside, and found one external IP on a valid admin account over RDP.
 - I used the decoy-vs-signal hint (15 points) to point me the right way.
