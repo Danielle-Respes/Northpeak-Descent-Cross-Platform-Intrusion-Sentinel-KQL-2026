@@ -52,8 +52,8 @@ Learned to stack filters and pick columns.
 
 ## Corrections and dead ends
 
-- **Empty results on first run.** Time range was set to "Last 24 hours" but the intrusion was weeks earlier. Fixed by pinning the window in the query. Cost me a confused few minutes; lesson learned, the UI time range silently overrides you.
-- **`LogonType == 10` returned nothing.** DeviceLogonEvents stores LogonType as a string, not a number. Fixed with `"RemoteInteractive"`. Lesson: check a column's data type before filtering.
+- **Empty results on first run.** Time range was set to "Last 24 hours" but the intrusion was weeks earlier. Fixed by pinning the window in the query. Lesson: the UI time range silently overrides you.
+- 
 
 ## Patterns I'm noticing
 
