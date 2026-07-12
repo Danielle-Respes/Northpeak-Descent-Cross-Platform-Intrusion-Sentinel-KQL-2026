@@ -1,6 +1,6 @@
 # KQL Learning Log
 
-Running record of the KQL I'm learning on this hunt. AI is my syntax tutor; the analysis is mine.
+My running log as I learn KQL on this hunt: the operators that clicked, the ones that bit me, and the patterns starting to stick. AI is my syntax tutor; the analysis is mine.
 
 ## Syntax learned
 
@@ -17,7 +17,6 @@ Running record of the KQL I'm learning on this hunt. AI is my syntax tutor; the 
 ## Phase 00 — Baseline
 
 Learned to scope a query and aggregate.
-
 - Built the reusable base: table, then `TimeGenerated between (...)`, then `DeviceName has_any (...)`.
 - Used `summarize Events = count() by DeviceName` to turn thousands of raw rows into one count per host.
 
@@ -31,6 +30,7 @@ Learned to stack filters and pick columns.
 - Read `RemoteIPType == Public` off the result to confirm the source was external.
 
 ## Queries run so far
+
 
 **Phase 00 — baseline count**
 
@@ -52,12 +52,11 @@ Learned to stack filters and pick columns.
 
 ## Corrections and dead ends
 
-- **Empty results on first run.** Time range was set to "Last 24 hours" but the intrusion was weeks earlier. Fixed by pinning the window in the query. Lesson: the UI time range silently overrides you.
+- **Empty results on first run.** Time range was set to "Last 24 hours" but the intrusion was weeks earlier. Fixed by pinning the window in the query. Cost me a confused few minutes; lesson learned, the UI time range silently overrides you.
 - **`LogonType == 10` returned nothing.** DeviceLogonEvents stores LogonType as a string, not a number. Fixed with `"RemoteInteractive"`. Lesson: check a column's data type before filtering.
-
 
 ## Patterns I'm noticing
 
-Every query starts the same way: table, then time filter, then host filter, then the question-specific `where` clauses. That skeleton (table, time, host) is becoming automatic.
+Every query starts the same way: table, then time filter, then host filter, then the question-specific `where` clauses. That skeleton (table, time, host) is becoming automatic, which feels good.
 
 `project` trims columns; `summarize` collapses rows into groups. Different jobs.
