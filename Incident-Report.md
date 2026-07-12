@@ -3,7 +3,7 @@
 
 ## Executive Summary
 
-*Status: Active hunting.* Someone gained unauthorized access to the Northpeak Logistics estate on the evening of June 16, 2026, across a mixed Windows and Linux environment. This report captures my investigative steps, the hurdles I hit, and the process I'm using to learn KQL and threat hunting.
+*Status: All phases solved.* Someone gained unauthorized access to the Northpeak Logistics estate on the evening of June 16, 2026, across a mixed Windows and Linux environment. This report captures my investigative steps, the hurdles I hit, and the process I'm using to learn KQL and threat hunting.
 
 ## Methodology
 
@@ -54,7 +54,7 @@ DeviceLogonEvents
 - **Account:** `sancadmin`, a real admin account. Nothing was hacked; they just logged in with valid credentials.
 - **How:** LogonType is `RemoteInteractive` on the Windows hosts, which means RDP.
 
-**How I got there:** I started with the same base as  Q00 (table, time, host), then added `LogonSuccess` to drop the failed logins, checked `RemoteIPType` to confirm the source was outside, and used `LogonType` to find the method (RDP). I used one of the two hints (15 points) for the "it's a decoy, look at what succeeded" and I want to get to that on my own next time.
+**How I got there:** I started with the same base as Q00 (table, time, host), then added `LogonSuccess` to drop the failed logins, checked `RemoteIPType` to confirm the source was outside, and used `LogonType` to find the method (RDP). I used one of the two hints (15 points) for the "it's a decoy, look at what succeeded" and I want to get to that on my own next time.
 
 **Q01 answer:** `148.64.103.173, RDP`
 
