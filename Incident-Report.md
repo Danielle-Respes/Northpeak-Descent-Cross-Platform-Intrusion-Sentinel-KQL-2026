@@ -9,7 +9,7 @@
 
 This is a practice hunt and my first extended KQL investigation, so I'm learning the query language as I work. I use an AI assistant as a syntax tutor while doing the analysis myself: reading each result, choosing the pivots, and drawing the conclusions. My running syntax notes and dead ends live in [kql-learning-log.md](./kql-learning-log.md).
 
-## Phase 00: Baseline and Setup
+## Q00: Baseline and Setup
 
 Before hunting anything, I confirmed I was on the right workspace and could query it. One scoped count proved three things at once: access, a working host filter, and real data in the intrusion window.
 
@@ -29,7 +29,7 @@ DeviceProcessEvents
 **Note:** high volume alone doesn't confirm compromise. The Linux count could be normal activity or the attacker's work. I'm treating it as a lead for Phase 02, not a conclusion.
 
 
-## Phase 01: Initial Access
+## Q01: Initial Access
 
 The alerts are full of failed logins, so it looks like brute force. But the brief said not to trust that, and it was right. The real entry logged in cleanly and never set off an alarm. So I stopped looking at the failures and went looking for the login that worked, from outside.
 
