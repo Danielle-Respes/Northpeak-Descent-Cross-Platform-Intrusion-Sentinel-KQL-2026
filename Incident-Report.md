@@ -148,3 +148,34 @@ DeviceLogonEvents
 **Q03 answer:** `loranse`
 
 ---
+
+## Q04: srv01 Access Vector
+
+The lead said the server "took its own way in, it wasn't reached from inside." So npt-srv01 wasn't pivoted to from another host, it had its own external login. I reconstructed it. Did this one solo, no hints.
+
+**Question:** how was npt-srv01 accessed from outside, method, source, and session type?
+
+```kql
+DeviceLogonEvents
+| where TimeGenerated between (datetime(2026-06-16 18:00) .. datetime(2026-06-17 02:00))
+| where DeviceName == "npt-srv01"
+| where ActionType == "LogonSuccess"
+| where RemoteIPType == "Public"
+| project TimeGenerated, DeviceName, AccountName, RemoteIP, LogonType, RemoteDeviceName
+| sort by TimeGenerated asc
+```
+
+**How I built it:** I reasoned "not reached from inside, so it had to be public," scoped to `npt-srv01`, filtered on `RemoteIPType == "Public"` and `LogonSuccess`, then projected the columns I needed.
+
+**The real thinking, three values in one column:** the `LogonType` column had three values: `RemoteInteractive`, `Network`, and `Unlock`. I had to work out which one was the actual access vector:
+- `Network` is the credential-check handshake.
+- `Unlock` is reopening an already-open session.
+- `RemoteInteractive` is a hands-on remote desktop session opening, that's the way in.
+
+So the vector is `RemoteInteractive` (RDP), from 148.64.103.173.
+
+**A mistake I caught myself:** I first put RDP in the logon_type slot. But RDP is the method, and `RemoteInteractive` is the logon_type, they're not the same thing. RDP is what I call it, RemoteInteractive is what the log calls it. Fixed the order to match the format.
+
+**Corroboration I went looking for:** I added `RemoteDeviceName` to check for `loranse` (the operator workstation from Q03), but it was empty for these sessions. So my answer rested on a single signal: the matching IP plus my reasoning about the logon type. It was right, but that was my best judgment, not a locked-down confirmation. Lesson: when the field I want to corroborate with is blank, find a different corroborator rather than settling for one signal.
+
+**Q04 answer:** `RDP, 148.64.103.173, RemoteInteractive`
