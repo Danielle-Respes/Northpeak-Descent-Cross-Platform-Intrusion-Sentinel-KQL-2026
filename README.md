@@ -4,7 +4,7 @@
 
 **Senior Endpoint Technician | Cyber Defense | GRC | IAM**
 
-> **Status:** All four phases solved (Q00–Q04). Community debrief July 15.
+> **Status:** Hunt complete. All five sections solved, 19 flags (Section 1 in July, Sections 2–5 on October 29).
 
 I'm a Senior Endpoint Technician moving into cyber defense. I'm using my background in system administration to build threat hunting and security analysis skills, and I document my process clearly so my work is transparent and useful to others.
 
@@ -16,7 +16,7 @@ My mission is to learn, document, and grow. This repo tracks my move from endpoi
 
 ## Read the Investigation
 
-**→ [Incident Report](./Incident-Report.md)** — the full write-up: baseline, initial access, the order of footholds, the operator's workstation, and the server's access vector.
+**→ [Incident Report](./Incident-Report.md)** — the full write-up: initial access, Linux recon, pivot and persistence, command and control, and exfiltration, plus a full timeline, IOCs and MITRE mapping.
 
 **→ [KQL Learning Log](./kql-learning-log.md)** — the syntax I learned, the dead ends, and the queries behind each finding.
 
@@ -35,17 +35,28 @@ I'm building toward Cyber Defense, GRC, and IAM, and I'm using this hunt to prac
 <img width="1485" height="1035" alt="attack-chain" src="https://github.com/user-attachments/assets/7991d735-93a2-4b92-be7e-dccb18bc0ca8" />
 
 
-The operator connected over RDP from `148.64.103.173` (workstation `loranse`) into `npt-ws01` first at 20:57, then reached `npt-srv01` (21:58) and `npt-linux01` (22:01), all on the valid `sancadmin` admin account. Reconstructed from my own Sentinel/MDE findings.
+The operator connected over RDP from `148.64.103.173` (workstation `loranse`) into `npt-ws01` first at 20:57, then reached `npt-srv01` (21:58) and `npt-linux01` (22:01), all on the valid `sancadmin` admin account. *(The diagram above covers Section 1, initial access.)*
+
+From there:
+
+1. **Linux recon:** `sudo -l` (after a `sudo -1` typo), bash `/dev/tcp` checks on RDP 3389, then NetExec installed via pipx.
+2. **Pivot:** NetExec over SMB from the Linux host (`10.2.0.30`) back into `npt-ws01` as `sancadmin`.
+3. **Persistence:** after confirming local admin rights (`findstr S-1-5-32-544`), an HKCU Run key `NorthpeakSyncTray` launching a hidden PowerShell script.
+4. **C2:** beacons to three look-alike subdomains of `sync-northpeak.com`. Only one showed up in network telemetry; one was hidden in a Base64 `-EncodedCommand`.
+5. **Impact:** `customer_data_export_20260616.csv` uploaded from `npt-srv01` to `cdn.sync-northpeak.com` in a second RDP session at 23:44.
+
+No exploits, no security tooling touched: valid accounts and living off the land the whole way. Reconstructed from Sentinel/MDE telemetry.
 
 ## Investigation Progress
 
-| Phase | Focus | Status |
-|---|---|---|
-| Q00 Setup Gate | Confirm workspace, submit gate phrase | Complete |
-| Q01 Initial Access | Real entry point, account, method | Complete |
-| Q02 Order of Footholds | Prove which host was hit first | Complete |
-| Q03 Operator Workstation | Identify the attacker's own machine | Complete |
-| Q04 srv01 Access Vector | Reconstruct the server's external entry | Complete |
+| Section | Flags | Focus | Status |
+|---|---|---|---|
+| 0 Setup Gate | Q00 | Confirm workspace, submit gate phrase | Complete |
+| 1 Initial Access | Q01–Q04 | Real entry, first foothold, operator workstation, server vector | Complete |
+| 2 Linux Recon | Q05–Q07 | Sudo enumeration, reachability check, tooling | Complete |
+| 3 Pivot & Persistence | Q08–Q10 | Lateral movement, human vs machine PowerShell, Run key | Complete |
+| 4 Command & Control | Q11–Q15 | Beacon domains, encoded beacon, noise vs operator, rhythm, TTL | Complete |
+| 5 Impact | Q16–Q19 | Exfil, session correlation, how they stayed quiet, admin check | Complete |
 
 ## Investigation Journal
 
@@ -57,7 +68,15 @@ The operator connected over RDP from `148.64.103.173` (workstation `loranse`) in
 - **Q03 — Operator Workstation:** found the attacker's own machine, `loranse`, leaking its name on every session.
 - **Q04 — srv01 Access Vector:** reconstructed the server's own external entry, RDP from `148.64.103.173`, RemoteInteractive. Did this one solo, no hints.
 
-**Next:** community debrief on July 15, then Post-Debrief Reflections.
+### October 29
+
+Came back and finished Sections 2–5 in one session, with much heavier AI help than Section 1 (the AI drafted most queries; I ran them and brought the results back). Details per flag are in the incident report.
+
+- **Linux Recon:** `sudo -l`, `/dev/tcp` on 3389, NetExec.
+- **Pivot & Persistence:** `sancadmin` from `10.2.0.30` into `npt-ws01`; `explorer.exe` was the human's PowerShell; HKCU Run key `NorthpeakSyncTray`.
+- **C2:** `status`, `updates`, `cdn` .sync-northpeak.com; decoded the UTF-16LE beacon; `gc_worker.exe` was the noise; the 2-second spacing showed a script; TTL as the DNS indicator.
+- **Impact:** customer export out of `npt-srv01` in the second session; no defense tampering, valid accounts and living off the land; operator checked local Administrators membership.
+- **Cost:** used Hint 2 on Beacon Rhythm (−15) after two wrong answers, and had one wrong submission on the Run key from a curly quote.
 
 ## Hunting Principles
 
@@ -125,6 +144,15 @@ Overnight the Northpeak Logistics estate lit up: a cross-platform intrusion usin
 | 21:58 | External RDP login (RemoteInteractive), sancadmin | npt-srv01 | Confirmed (Q04) |
 | 22:01 | Linux accessed, over an hour after Windows | npt-linux01 | Confirmed (Q02) |
 | - | Operator workstation identified: loranse (source of the RDP sessions) | loranse | Confirmed (Q03) |
+| 22:11–22:16 | `sudo -1` typo, then `sudo -l` | npt-linux01 | Confirmed (Q05) |
+| 22:21 | `/dev/tcp` checks on 3389 against 10.2.0.10 and 10.2.0.20 | npt-linux01 | Confirmed (Q06) |
+| 22:29–22:31 | NetExec installed via pipx | npt-linux01 | Confirmed (Q07) |
+| 22:32–22:37 | NetExec SMB pivot as sancadmin from 10.2.0.30 | npt-ws01 | Confirmed (Q08) |
+| 22:43 | `whoami /groups \| findstr S-1-5-32-544` after RDP re-entry | npt-ws01 | Confirmed (Q19) |
+| 23:04 | HKCU Run key `NorthpeakSyncTray` planted | npt-ws01 | Confirmed (Q10) |
+| 23:15–23:28 | Beacons to status / updates / cdn .sync-northpeak.com | npt-ws01 | Confirmed (Q11–Q14) |
+| 23:42 | Second RDP session, Unlock | npt-srv01 | Confirmed (Q17) |
+| 23:44 | `customer_data_export_20260616.csv` uploaded to cdn.sync-northpeak.com | npt-srv01 | Confirmed (Q16) |
 | ~00:30 | Intrusion window closes | | |
 
 </details>
