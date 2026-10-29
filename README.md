@@ -97,17 +97,6 @@ These are the principles from the hunt brief that I'm using as my north star, to
 - **Query language:** Kusto Query Language (KQL)
 - **Mode:** Practice, working after contest close to learn properly
 
-## Post-Debrief Reflections
-
-To be filled in after the July 15 debrief: peer feedback, and any hunting logic I refine as a result.
-
-## What I Learned
-
-To be filled in after the debrief:
-- What the hunt was designed to teach
-- Where I got stuck
-- What the debrief clarified
-- What I'd do faster next time
 
 ---
 
